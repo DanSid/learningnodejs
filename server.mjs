@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-
+import {unlink, writeFile} from 'node:fs';
 // Define request handler
 // function requestHandler(req, res){
 //     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -12,8 +12,25 @@ import { createServer } from 'node:http';
 //     res.end('<h1>We have an HTTP Server</h1>');
 // });
 const server = createServer((req, res) =>{
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end('<h1>We have an HTTP Server</h1>');
+    console.log(req.url);
+    if(req.url.includes('create')){
+        // Create file
+        writeFile('./abc.html', '<h1>Learning Node.js</h1>', (err) =>{
+            console.log(err);
+            // Return response
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end('<h1>File deleted</h1>');
+            });
+    } else{
+        // Delete file
+        unlink('./index.html', (err) =>{
+            // Return a response
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end('<h1>File deleted</h1>');
+        });
+        
+    }
+   
 });
 
 // Create HTTP SERVER
@@ -25,7 +42,7 @@ server.listen(3000, '127.0.0.1',() =>{
 });
 
 // Normal function vs Arrow Function
-function handleRequest(){}
+// function handleRequest(){}
 const handleRequest = () =>{}
 
 
